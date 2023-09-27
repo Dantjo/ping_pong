@@ -28,13 +28,13 @@ class Player(GameSprite):
         keys = key.get_pressed()
         if keys[K_UP] and self.rect.y > 5:
             self.rect.y -= self.speed
-        if keys[K_DOWN] and self.rect.y < win_width - 80:
+        if keys[K_DOWN] and self.rect.y < win_height - 90:
             self.rect.y += self.speed
-    def update_r(self):
+    def update_l(self):
         keys = key.get_pressed()
-        if keys[K_UP] and self.rect.y > 5:
+        if keys[K_w] and self.rect.y > 5:
             self.rect.y -= self.speed
-        if keys[K_DOWN] and self.rect.y < win_width - 80:
+        if keys[K_s] and self.rect.y < win_height - 90:
             self.rect.y += self.speed
 
 
@@ -42,16 +42,20 @@ clock = time.Clock()
 FPS = 60
 run = True
 finish = False
-
+rac1 = Player('walls.png', 30, 250, 10, 30, 90)
+rac2 = Player('walls.png', 650, 250, 10, 30, 90)
+ball = GameSprite('basketball.png', 350, 250, 8, 55, 55)
 while run:
     for e in event.get():
         if e.type == QUIT:
             run = False
-    
-
-   
     window.blit(background, (0, 0))
     
+    rac1.reset()
+    rac1.update_l()
+    rac2.reset()
+    rac2.update_r()
+    ball.reset()
+    ball.update()
     display.update()
-
     clock.tick(FPS)
