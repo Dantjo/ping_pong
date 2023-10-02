@@ -37,20 +37,38 @@ class Player(GameSprite):
         if keys[K_s] and self.rect.y < win_height - 90:
             self.rect.y += self.speed
 
-
 clock = time.Clock()
 FPS = 60
+speed_x = 3
+speed_y = 3
 run = True
 finish = False
 rac1 = Player('walls.png', 30, 250, 10, 30, 90)
 rac2 = Player('walls.png', 650, 250, 10, 30, 90)
 ball = GameSprite('basketball.png', 350, 250, 8, 55, 55)
+font.init()
+font1 = font.Font(None, 35)
+font2 = font.Font(None, 35)
+win1 = font1.render('!PLAYER 2 WINS!', True, (200, 0, 0))
+win2 = font2.render('!PLAYER 1 WINS!', True, (200, 0, 0))
 while run:
     for e in event.get():
         if e.type == QUIT:
             run = False
     window.blit(background, (0, 0))
-    
+    if finish != True:
+        ball.rect.x += speed_x
+        ball.rect.y += speed_y
+    if sprite.collide_rect(rac1, ball) or sprite.collide_rect(rac2, ball):
+        speed_x *= -1
+    if ball.rect.y > win_height - 50 or ball.rect.y < 0:
+        speed_y *= -1
+    if ball.rect.x < 0:
+        finish = True
+        window.blit(win1, (200, 200))
+    if ball.rect.x > win_width - 50:
+        finish = True
+        window.blit(win2, (200, 200))
     rac1.reset()
     rac1.update_l()
     rac2.reset()
